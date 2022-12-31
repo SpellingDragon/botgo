@@ -40,6 +40,20 @@ func (o *openAPI) CleanChannelAnnounces(ctx context.Context, channelID string) e
 	return err
 }
 
+// GetGuildAnnounces 获取当前频道全局公告
+func (o *openAPI) GetGuildAnnounces(ctx context.Context, guildID string,
+	announce *dto.GuildAnnouncesToCreate) (*dto.Announces, error) {
+	resp, err := o.request(ctx).
+		SetResult(dto.Announces{}).
+		SetPathParam("guild_id", guildID).
+		SetBody(announce).
+		Get(o.getURL(guildAnnouncesURI))
+	if err != nil {
+		return nil, err
+	}
+	return resp.Result().(*dto.Announces), nil
+}
+
 // CreateGuildAnnounces 创建频道全局公告
 func (o *openAPI) CreateGuildAnnounces(ctx context.Context, guildID string,
 	announce *dto.GuildAnnouncesToCreate) (*dto.Announces, error) {

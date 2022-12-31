@@ -8,6 +8,18 @@ type Thread struct {
 	ThreadInfo ThreadInfo `json:"thread_info"`
 }
 
+const ThreadFormatTxt uint32 = 1
+const ThreadFormatHtml uint32 = 2
+const ThreadFormatMarkdown uint32 = 3
+const ThreadFormatJson uint32 = 4
+
+// Thread 主题事件主体内容
+type ThreadToCreate struct {
+	Format  uint32 `json:"format"`
+	Title   string `json:"title"`
+	Content string `json:"content"`
+}
+
 // ThreadInfo 主题信息
 type ThreadInfo struct {
 	ThreadID string `json:"thread_id"`
@@ -61,5 +73,6 @@ type ForumAuditResult struct {
 	PublishType uint32 `json:"type"`
 	Result      uint32 `json:"result"`
 	ErrMsg      string `json:"err_msg"`
+	CreateTime  string `json:"create_time"`
 	DateTime    string `json:"date_time"`
 }

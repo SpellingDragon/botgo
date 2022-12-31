@@ -28,6 +28,7 @@ type OpenAPI interface {
 	AudioAPI
 	RoleAPI
 	MemberAPI
+	ThreadAPI
 	ChannelPermissionsAPI
 	AnnouncesAPI
 	ScheduleAPI
@@ -72,6 +73,11 @@ type MessageAPI interface {
 	RetractMessage(ctx context.Context, channelID, msgID string, options ...RetractMessageOption) error
 	// PostSettingGuide 发送设置引导
 	PostSettingGuide(ctx context.Context, channelID string, atUserIDs []string) (*dto.Message, error)
+}
+
+// ThreadAPI 主题贴相关接口
+type ThreadAPI interface {
+	PutThread(ctx context.Context, channelID string, msg *dto.ThreadToCreate) (*dto.ForumAuditResult, error)
 }
 
 // GuildAPI guild 相关接口
@@ -174,6 +180,11 @@ type AnnouncesAPI interface {
 	DeleteChannelAnnounces(ctx context.Context, channelID, messageID string) error
 	// CleanChannelAnnounces 删除子频道公告,不校验 messageID
 	CleanChannelAnnounces(ctx context.Context, channelID string) error
+	// GetGuildAnnounces 获取当前频道全局公告
+	GetGuildAnnounces(
+		ctx context.Context, guildID string,
+		announce *dto.GuildAnnouncesToCreate,
+	) (*dto.Announces, error)
 	// CreateGuildAnnounces 创建频道全局公告
 	CreateGuildAnnounces(
 		ctx context.Context, guildID string,

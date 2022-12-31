@@ -92,6 +92,17 @@ func TestAnnounces(t *testing.T) {
 		},
 	)
 	t.Run(
+		"create recommend channel guild announce", func(t *testing.T) {
+			time.Sleep(3 * time.Second)
+			rsp := &dto.GuildAnnouncesToCreate{}
+			announces, err := api.GetGuildAnnounces(ctx, testGuildID, rsp)
+			if err != nil {
+				t.Error(err)
+			}
+			t.Logf("announces:%+v", announces)
+		},
+	)
+	t.Run(
 		"delete guild announce", func(t *testing.T) {
 			time.Sleep(3 * time.Second)
 			if err := api.DeleteGuildAnnounces(ctx, testGuildID, testMessageID); err != nil {
