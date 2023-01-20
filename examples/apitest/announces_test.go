@@ -94,8 +94,7 @@ func TestAnnounces(t *testing.T) {
 	t.Run(
 		"create recommend channel guild announce", func(t *testing.T) {
 			time.Sleep(3 * time.Second)
-			rsp := &dto.GuildAnnouncesToCreate{}
-			announces, err := api.GetGuildAnnounces(ctx, testGuildID, rsp)
+			announces, err := api.GetGuildAnnounces(ctx, testGuildID)
 			if err != nil {
 				t.Error(err)
 			}

@@ -181,10 +181,7 @@ type AnnouncesAPI interface {
 	// CleanChannelAnnounces 删除子频道公告,不校验 messageID
 	CleanChannelAnnounces(ctx context.Context, channelID string) error
 	// GetGuildAnnounces 获取当前频道全局公告
-	GetGuildAnnounces(
-		ctx context.Context, guildID string,
-		announce *dto.GuildAnnouncesToCreate,
-	) (*dto.Announces, error)
+	GetGuildAnnounces(ctx context.Context, guildID string) (*dto.Announces, error)
 	// CreateGuildAnnounces 创建频道全局公告
 	CreateGuildAnnounces(
 		ctx context.Context, guildID string,
