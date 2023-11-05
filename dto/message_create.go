@@ -18,6 +18,8 @@ type MessageToCreate struct {
 
 // MessageReference 引用消息
 type MessageReference struct {
+	GuildID               string `yaml:"guild_id"`
+	ChannelID             string `yaml:"channel_id"`
 	MessageID             string `json:"message_id"`               // 消息 id
 	IgnoreGetMessageError bool   `json:"ignore_get_message_error"` // 是否忽律获取消息失败错误
 }
