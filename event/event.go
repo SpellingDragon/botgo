@@ -9,6 +9,8 @@ import (
 
 var eventParseFuncMap = map[dto.OPCode]map[dto.EventType]eventParseFunc{
 	dto.WSDispatchEvent: {
+		dto.EventGroupAtMessageCreate: groupAtMessageHandler,
+
 		dto.EventGuildCreate: guildHandler,
 		dto.EventGuildUpdate: guildHandler,
 		dto.EventGuildDelete: guildHandler,
@@ -73,6 +75,17 @@ func ParseAndHandle(payload *dto.WSPayload) error {
 func ParseData(message []byte, target interface{}) error {
 	data := gjson.Get(string(message), "d")
 	return json.Unmarshal([]byte(data.String()), target)
+}
+
+func groupAtMessageHandler(payload *dto.WSPayload, message []byte) error {
+	data := &dto.WSGroupATMessageData{}
+	if err := ParseData(message, data); err != nil {
+		return err
+	}
+	if DefaultHandlers.GroupATMessage != nil {
+		return DefaultHandlers.GroupATMessage(payload, data)
+	}
+	return nil
 }
 
 func guildHandler(payload *dto.WSPayload, message []byte) error {

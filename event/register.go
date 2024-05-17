@@ -16,6 +16,7 @@ var DefaultHandlers struct {
 
 	Message             MessageEventHandler
 	MessageReaction     MessageReactionEventHandler
+	GroupATMessage      GroupATMessageEventHandler
 	ATMessage           ATMessageEventHandler
 	DirectMessage       DirectMessageEventHandler
 	MessageAudit        MessageAuditEventHandler
@@ -66,6 +67,9 @@ type DirectMessageDeleteEventHandler func(event *dto.WSPayload, data *dto.WSDire
 
 // MessageReactionEventHandler 表情表态事件 handler
 type MessageReactionEventHandler func(event *dto.WSPayload, data *dto.WSMessageReactionData) error
+
+// GroupATMessageEventHandler group at 机器人消息事件 handler
+type GroupATMessageEventHandler func(event *dto.WSPayload, data *dto.WSGroupATMessageData) error
 
 // ATMessageEventHandler at 机器人消息事件 handler
 type ATMessageEventHandler func(event *dto.WSPayload, data *dto.WSATMessageData) error
@@ -170,6 +174,9 @@ func registerRelationHandlers(i dto.Intent, handlers ...interface{}) dto.Intent 
 func registerMessageHandlers(i dto.Intent, handlers ...interface{}) dto.Intent {
 	for _, h := range handlers {
 		switch handle := h.(type) {
+		case GroupATMessageEventHandler:
+			DefaultHandlers.GroupATMessage = handle
+			i = i | dto.EventToIntent(dto.EventGroupAtMessageCreate)
 		case MessageEventHandler:
 			DefaultHandlers.Message = handle
 			i = i | dto.EventToIntent(dto.EventMessageCreate)

@@ -6,6 +6,7 @@ func init() {
 
 // 事件类型
 const (
+	EventGroupAtMessageCreate  EventType = "GROUP_AT_MESSAGE_CREATE"
 	EventGuildCreate           EventType = "GUILD_CREATE"
 	EventGuildUpdate           EventType = "GUILD_UPDATE"
 	EventGuildDelete           EventType = "GUILD_DELETE"
