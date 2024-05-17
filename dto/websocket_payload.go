@@ -57,9 +57,6 @@ type WSReadyData struct {
 	Shard []uint32 `json:"shard"`
 }
 
-// WSGroupATMessageData group at 机器人的消息 payload
-type WSGroupATMessageData GroupMessage
-
 // WSGuildData 频道 payload
 type WSGuildData Guild
 

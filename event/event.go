@@ -9,8 +9,6 @@ import (
 
 var eventParseFuncMap = map[dto.OPCode]map[dto.EventType]eventParseFunc{
 	dto.WSDispatchEvent: {
-		dto.EventGroupAtMessageCreate: groupAtMessageHandler,
-
 		dto.EventGuildCreate: guildHandler,
 		dto.EventGuildUpdate: guildHandler,
 		dto.EventGuildDelete: guildHandler,
@@ -55,7 +53,7 @@ var eventParseFuncMap = map[dto.OPCode]map[dto.EventType]eventParseFunc{
 		dto.EventInteractionCreate: interactionHandler,
 
 		dto.EventGroupATMessageCreate: groupAtMessageHandler,
-		dto.EventGroupMessageCreate: groupMessageHandler,
+		dto.EventGroupMessageCreate:   groupMessageHandler,
 	},
 }
 
