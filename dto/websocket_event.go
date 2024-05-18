@@ -6,7 +6,6 @@ func init() {
 
 // 事件类型
 const (
-	EventGroupAtMessageCreate  EventType = "GROUP_AT_MESSAGE_CREATE"
 	EventGuildCreate           EventType = "GUILD_CREATE"
 	EventGuildUpdate           EventType = "GUILD_UPDATE"
 	EventGuildDelete           EventType = "GUILD_DELETE"
@@ -70,7 +69,9 @@ var intentEventMap = map[Intent][]EventType{
 		EventForumPostDelete, EventForumReplyCreate, EventForumReplyDelete, EventForumAuditResult,
 	},
 	IntentInteraction: {EventInteractionCreate},
-	IntentQQ:          {EventC2CMessageCreate, EventC2CMsgReceive, EventC2CMsgReject, EventGroupATMessageCreate, EventGroupMessageCreate, EventGroupAddRobbot, EventGroupDelRobbot, EventGroupMsgReceive, EventGroupMsgReject, EventFriendAdd, EventFriendDel},
+	IntentQQ:          {EventC2CMessageCreate, EventC2CMsgReceive, EventC2CMsgReject, EventGroupATMessageCreate,
+						   EventGroupMessageCreate, EventGroupAddRobbot, EventGroupDelRobbot, EventGroupMsgReceive,
+						   EventGroupMsgReject, EventFriendAdd, EventFriendDel},
 }
 
 var eventIntentMap = transposeIntentEventMap(intentEventMap)
