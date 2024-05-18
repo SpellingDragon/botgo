@@ -34,11 +34,11 @@ func New(tokenType Type) *Token {
 }
 
 // BotToken 机器人身份的 token
-func BotToken(appID uint64, accessToken string, qqType string) *Token {
+func BotToken(appID uint64, accessToken string, qqType Type) *Token {
 	return &Token{
 		AppID:       appID,
 		AccessToken: accessToken,
-		Type:        Type(qqType),
+		Type:        qqType,
 	}
 }
 
