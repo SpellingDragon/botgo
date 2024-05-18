@@ -6,7 +6,7 @@ import (
 
 const domain = "api.sgroup.qq.com"
 const sandBoxDomain = "sandbox.api.sgroup.qq.com"
-const getAppAccessTokenDomain = "https://bots.qq.com"
+const getAppAccessTokenDomain = "bots.qq.com"
 
 const scheme = "https"
 

@@ -79,17 +79,6 @@ func ParseData(message []byte, target interface{}) error {
 	return err
 }
 
-func groupAtMessageHandler(payload *dto.WSPayload, message []byte) error {
-	data := &dto.WSGroupATMessageData{}
-	if err := ParseData(message, data); err != nil {
-		return err
-	}
-	if DefaultHandlers.GroupATMessage != nil {
-		return DefaultHandlers.GroupATMessage(payload, data)
-	}
-	return nil
-}
-
 func guildHandler(payload *dto.WSPayload, message []byte) error {
 	data := &dto.WSGuildData{}
 	if err := ParseData(message, data); err != nil {
