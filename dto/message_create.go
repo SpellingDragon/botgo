@@ -30,7 +30,7 @@ type GroupMessageToCreate struct {
 	MessageReference *MessageReference         `json:"message_reference,omitempty"`
 	EventID          string                    `json:"event_id,omitempty"` // 要回复的事件id, 逻辑同MsgID
 	MsgID            string                    `json:"msg_id,omitempty"`
-	MsgReq           uint                      `json:"msg_req,omitempty"`
+	MsgSeq           uint                      `json:"msg_seq,omitempty"`
 }
 
 type FileInfo struct {
