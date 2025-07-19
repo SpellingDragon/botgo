@@ -7,7 +7,7 @@ import (
 )
 
 // PostAudio AudioAPI 接口实现
-func (o openAPI) PostAudio(ctx context.Context, channelID string, value *dto.AudioControl) (*dto.AudioControl, error) {
+func (o *openAPI) PostAudio(ctx context.Context, channelID string, value *dto.AudioControl) (*dto.AudioControl, error) {
 	// 目前服务端成功不回包
 	_, err := o.request(ctx).
 		SetResult(dto.Channel{}).

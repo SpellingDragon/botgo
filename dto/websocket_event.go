@@ -49,6 +49,10 @@ const (
 	EventFriendDel             EventType = "FRIEND_DEL"
 	EventC2CMsgReject          EventType = "C2C_MSG_REJECT"
 	EventC2CMsgReceive         EventType = "C2C_MSG_RECEIVE"
+	EventSubscribeMsgStatus    EventType = "SUBSCRIBE_MESSAGE_STATUS"
+	EventC2CFriendAdd          EventType = "FRIEND_ADD"
+	EventC2CFriendDel          EventType = "FRIEND_DEL"
+	EventEnterAIO              EventType = "ENTER_AIO"
 )
 
 // intentEventMap 不同 intent 对应的事件定义
@@ -57,8 +61,9 @@ var intentEventMap = map[Intent][]EventType{
 		EventGuildCreate, EventGuildUpdate, EventGuildDelete,
 		EventChannelCreate, EventChannelUpdate, EventChannelDelete,
 	},
-	IntentGuildMembers:          {EventGuildMemberAdd, EventGuildMemberUpdate, EventGuildMemberRemove},
-	IntentGuildMessages:         {EventMessageCreate, EventMessageDelete},
+	IntentGuildMembers:  {EventGuildMemberAdd, EventGuildMemberUpdate, EventGuildMemberRemove},
+	IntentGuildMessages: {EventMessageCreate, EventMessageDelete},
+
 	IntentGuildMessageReactions: {EventMessageReactionAdd, EventMessageReactionRemove},
 	IntentGuildAtMessage:        {EventAtMessageCreate, EventPublicMessageDelete},
 	IntentDirectMessages:        {EventDirectMessageCreate, EventDirectMessageDelete},
@@ -69,9 +74,10 @@ var intentEventMap = map[Intent][]EventType{
 		EventForumPostDelete, EventForumReplyCreate, EventForumReplyDelete, EventForumAuditResult,
 	},
 	IntentInteraction: {EventInteractionCreate},
-	IntentQQ:          {EventC2CMessageCreate, EventC2CMsgReceive, EventC2CMsgReject, EventGroupATMessageCreate,
-						   EventGroupMessageCreate, EventGroupAddRobbot, EventGroupDelRobbot, EventGroupMsgReceive,
-						   EventGroupMsgReject, EventFriendAdd, EventFriendDel},
+	IntentQQ: {EventC2CMessageCreate, EventC2CMsgReceive, EventC2CMsgReject, EventGroupATMessageCreate,
+		EventGroupMessageCreate, EventGroupAddRobbot, EventGroupDelRobbot, EventGroupMsgReceive,
+		EventGroupMsgReject, EventFriendAdd, EventFriendDel, EventSubscribeMsgStatus},
+	IntentEnterAIO: {EventEnterAIO},
 }
 
 var eventIntentMap = transposeIntentEventMap(intentEventMap)

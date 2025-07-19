@@ -32,8 +32,13 @@ var DefaultHandlers struct {
 
 	Interaction InteractionEventHandler
 
-	GroupAtMessage GroupAtMessageEventHandler
-	GroupMessage   GroupMessageEventHandler
+	GroupMessage       GroupMessageEventHandler
+	GroupATMessage     GroupATMessageEventHandler
+	C2CMessage         C2CMessageEventHandler
+	SubscribeMsgStatus SubscribeMsgStatusEventHandler
+	C2CFriend          C2CFriendEventHandler
+
+	EnterAIO EnterAIOEventHandler
 }
 
 // ReadyHandler 可以处理 ws 的 ready 事件
@@ -97,9 +102,28 @@ type ForumAuditEventHandler func(event *dto.WSPayload, data *dto.WSForumAuditDat
 // InteractionEventHandler 互动事件 handler
 type InteractionEventHandler func(event *dto.WSPayload, data *dto.WSInteractionData) error
 
-type GroupAtMessageEventHandler func(event *dto.WSPayload, data *dto.WSGroupATMessageData) error
-
 type GroupMessageEventHandler func(event *dto.WSPayload, data *dto.WSGroupMessageData) error
+
+// ***************** 群消息/C2C消息  *****************
+
+// GroupATMessageEventHandler 群中at机器人消息事件 handler
+type GroupATMessageEventHandler func(event *dto.WSPayload, data *dto.WSGroupATMessageData) error
+
+// C2CMessageEventHandler 机器人消息事件 handler
+type C2CMessageEventHandler func(event *dto.WSPayload, data *dto.WSC2CMessageData) error
+
+// ***************** C2C 添加/删除好友 *******************************
+
+// C2CFriendEventHandler C2C 好友事件 handler
+type C2CFriendEventHandler func(event *dto.WSPayload, data *dto.WSC2CFriendData) error
+
+// ************************************************
+
+// SubscribeMsgStatusEventHandler 订阅消息模板授权状态变更事件 handler
+type SubscribeMsgStatusEventHandler func(event *dto.WSPayload, data *dto.WSSubscribeMsgStatus) error
+
+// EnterAIOEventHandler 进入AIO事件 handler
+type EnterAIOEventHandler func(event *dto.WSPayload, data *dto.WSEnterAIOData) error
 
 // RegisterHandlers 注册事件回调，并返回 intent 用于 websocket 的鉴权
 func RegisterHandlers(handlers ...interface{}) dto.Intent {
@@ -121,6 +145,15 @@ func RegisterHandlers(handlers ...interface{}) dto.Intent {
 		case InteractionEventHandler:
 			DefaultHandlers.Interaction = handle
 			i = i | dto.EventToIntent(dto.EventInteractionCreate)
+		case SubscribeMsgStatusEventHandler:
+			DefaultHandlers.SubscribeMsgStatus = handle
+			i = i | dto.EventToIntent(dto.EventSubscribeMsgStatus)
+		case C2CFriendEventHandler:
+			DefaultHandlers.C2CFriend = handle
+			i = i | dto.EventToIntent(dto.EventC2CFriendAdd)
+		case EnterAIOEventHandler:
+			DefaultHandlers.EnterAIO = handle
+			i = i | dto.EventToIntent(dto.EventEnterAIO)
 		default:
 		}
 	}
@@ -201,12 +234,15 @@ func registerMessageHandlers(i dto.Intent, handlers ...interface{}) dto.Intent {
 		case MessageAuditEventHandler:
 			DefaultHandlers.MessageAudit = handle
 			i = i | dto.EventToIntent(dto.EventMessageAuditPass, dto.EventMessageAuditReject)
-		case GroupAtMessageEventHandler:
-			DefaultHandlers.GroupAtMessage = handle
-			i = i | dto.EventToIntent(dto.EventGroupATMessageCreate)
 		case GroupMessageEventHandler:
 			DefaultHandlers.GroupMessage = handle
 			i = i | dto.EventToIntent(dto.EventGroupMessageCreate)
+		case GroupATMessageEventHandler:
+			DefaultHandlers.GroupATMessage = handle
+			i = i | dto.EventToIntent(dto.EventGroupATMessageCreate)
+		case C2CMessageEventHandler:
+			DefaultHandlers.C2CMessage = handle
+			i = i | dto.EventToIntent(dto.EventC2CMessageCreate)
 		default:
 		}
 	}

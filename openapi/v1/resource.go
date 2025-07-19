@@ -2,6 +2,8 @@ package v1
 
 import (
 	"fmt"
+
+	"github.com/tencent-connect/botgo/constant"
 )
 
 const domain = "api.sgroup.qq.com"
@@ -33,8 +35,17 @@ const (
 	channelPermissionsURI      uri = "/channels/{channel_id}/members/{user_id}/permissions"
 	channelRolesPermissionsURI uri = "/channels/{channel_id}/roles/{role_id}/permissions"
 
-	messagesURI uri = "/channels/{channel_id}/messages"
-	messageURI  uri = "/channels/{channel_id}/messages/{message_id}"
+	messagesURI       uri = "/channels/{channel_id}/messages"
+	groupMessagesURI  uri = "/v2/groups/{group_id}/messages"
+	groupRichMediaURI uri = "/v2/groups/{group_id}/files"
+
+	c2cMessagesURI  uri = "/v2/users/{user_id}/messages"
+	c2cRichMediaURI uri = "/v2/users/{user_id}/files"
+
+	retractC2cMessageURI   uri = "/v2/users/{user_id}/messages/{message_id}"
+	retractGroupMessageURI uri = "/v2/groups/{group_id}/messages/{message_id}"
+
+	messageURI uri = "/channels/{channel_id}/messages/{message_id}"
 
 	threadsURI uri = "/channels/{channel_id}/threads"
 	threadURI  uri = "/channels/{channel_id}/threads/{task_id}"
@@ -88,11 +99,11 @@ const (
 
 // getURL 获取接口地址，会处理沙箱环境判断
 func (o *openAPI) getURL(endpoint uri) string {
-	d := domain
+	d := constant.APIDomain
 	if o.sandbox {
-		d = sandBoxDomain
+		d = constant.SandBoxAPIDomain
 	}
-	return fmt.Sprintf("%s://%s%s", scheme, d, endpoint)
+	return fmt.Sprintf("%s%s", d, endpoint)
 }
 
 func (o *openAPI) getQQURL(endpoint uri) string {

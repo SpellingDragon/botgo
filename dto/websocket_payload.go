@@ -8,13 +8,15 @@ type WSPayload struct {
 	WSPayloadBase
 	Data       interface{} `json:"d,omitempty"`
 	RawMessage []byte      `json:"-"` // 原始的 message 数据
+	Session    *Session
 }
 
 // WSPayloadBase 基础消息结构，排除了 data
 type WSPayloadBase struct {
-	OPCode OPCode    `json:"op"`
-	Seq    uint32    `json:"s,omitempty"`
-	Type   EventType `json:"t,omitempty"`
+	OPCode  OPCode    `json:"op"`
+	Seq     uint32    `json:"s,omitempty"`
+	Type    EventType `json:"t,omitempty"`
+	EventID string    `json:"id,omitempty"`
 }
 
 // 以下为发送到 websocket 的 data
@@ -72,8 +74,6 @@ type WSMessageData Message
 // WSATMessageData only at 机器人的消息 payload
 type WSATMessageData Message
 
-type WSGroupATMessageData GroupMessage
-
 type WSGroupMessageData GroupMessage
 
 // WSDirectMessageData 私信消息 payload
@@ -111,3 +111,24 @@ type WSForumAuditData ForumAuditResult
 
 // WSInteractionData 互动事件
 type WSInteractionData Interaction
+
+// ***************** 群消息/C2C消息  *****************
+
+// WSGroupATMessageData 群@机器人的事件
+type WSGroupATMessageData Message
+
+// WSC2CMessageData  c2c消息事件
+type WSC2CMessageData Message
+
+// ************************************************
+
+// WSC2CFriendData C2C 好友事件
+type WSC2CFriendData C2CFriendData
+
+// ************************************************
+
+// WSSubscribeMsgStatus 订阅消息模板授权状态变更事件
+type WSSubscribeMsgStatus SubscribeMessageStatusData
+
+// WSEnterAIOData 进入aio事件
+type WSEnterAIOData EnterAIO
