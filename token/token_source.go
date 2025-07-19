@@ -20,11 +20,6 @@ import (
 )
 
 const (
-	// TypeBearer ..
-	TypeBearer string = "Bearer"
-	// TypeQQBot ..
-	TypeQQBot string = "QQBot"
-
 	defaultExpiryDeltaMillSec  = 9000 // 与oauth2.defaultExpiryDelta - time.Second
 	randTimeUpperLimitMilliSec = 500  // 随机时间区间Sec
 )
@@ -157,7 +152,7 @@ func (w *QQBotTokenSource) getNewToken() (*oauth2.Token, error) {
 	expiry := time.Now().Add(time.Duration(retrieveRsp.ExpiresIn) * time.Second)
 	return &oauth2.Token{
 		AccessToken: retrieveRsp.AccessToken,
-		TokenType:   TypeQQBot,
+		TokenType:   string(TypeQQBot),
 		Expiry:      expiry,
 		ExpiresIn:   retrieveRsp.ExpiresIn,
 	}, nil
