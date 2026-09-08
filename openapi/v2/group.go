@@ -16,7 +16,7 @@ import (
 const (
 	groupRichMediaUploadURI = "/v2/groups/%s/files"
 	groupRichMediaMsgURI    = "/v2/groups/%s/messages"
-	groupRestrictChatURI    = "/v2/groups/%s/restrict_chat_setting"
+	groupRestrictChatURI    = "/v2/groups/%s/members/%s/restrict_chat_setting"
 )
 
 // V2 v2 群场景能力集
@@ -61,14 +61,18 @@ func (v *V2) GroupRichMediaMessage(ctx context.Context, groupOpenID string,
 	return err
 }
 
-// GroupRestrictChat 群成员禁言/解除（action_type add/del, expire 秒级时间戳）
-func (v *V2) GroupRestrictChat(ctx context.Context, groupOpenID string,
+// GroupRestrictChat 群成员禁言/解除（action_type add/del, mute_expire_at 秒级时间戳）
+// 官方契约: POST /v2/groups/{group_openid}/members/{member_openid}/restrict_chat_setting
+func (v *V2) GroupRestrictChat(ctx context.Context, groupOpenID, memberOpenID string,
 	req *dto.GroupRestrictChatReq) (*dto.GroupRestrictChatResp, error) {
+	if memberOpenID == "" {
+		return nil, fmt.Errorf("v2: restrict_chat requires member_openid")
+	}
 	if req == nil || (req.ActionType != "add" && req.ActionType != "del") {
 		return nil, fmt.Errorf("v2: restrict_chat requires action_type add|del")
 	}
 	body, err := v.api.Transport(ctx, http.MethodPost,
-		fmt.Sprintf(groupRestrictChatURI, groupOpenID), req)
+		fmt.Sprintf(groupRestrictChatURI, groupOpenID, memberOpenID), req)
 	if err != nil {
 		return nil, err
 	}
